@@ -14,5 +14,10 @@ function sendResponse($status, $message, $data = null, $httpCode = 200)
 
     exit;
 }
+function response($status, $message, $data = null)
+{
+    sendResponse($status, $message, $data, $status);
+}
+
 
 ?>
