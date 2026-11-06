@@ -18,14 +18,8 @@ if (isset($_GET['id'])) {
         sendResponse(false, "ID kamar tidak valid", null, 400);
     }
 
-    $query = "
-        SELECT 
-            k.*,
-            p.nama_penyewa,
-            p.no_telepon
-        FROM kamar k
-        LEFT JOIN kontrak c ON k.id_kamar = c.id_kamar
-            AND c.id_kontrak = (
+    $query = "SELECT k.*, p.nama_penyewa, p.no_telepon FROM kamar k LEFT JOIN kontrak c ON k.id_kamar = c.id_kamar
+                AND c.id_kontrak = (
                 SELECT MAX(c2.id_kontrak)
                 FROM kontrak c2
                 WHERE c2.id_kamar = k.id_kamar
@@ -92,14 +86,8 @@ $countResult = mysqli_stmt_get_result($countStmt);
 $totalData = mysqli_fetch_assoc($countResult)['total'];
 
 // Mengambil data kamar
-$query = "
-    SELECT 
-        k.*,
-        p.nama_penyewa,
-        p.no_telepon
-    FROM kamar k
-    LEFT JOIN kontrak c ON k.id_kamar = c.id_kamar
-        AND c.id_kontrak = (
+$query = "SELECT k.*, p.nama_penyewa, p.no_telepon FROM kamar k LEFT JOIN kontrak c ON k.id_kamar = c.id_kamar
+            AND c.id_kontrak = (
             SELECT MAX(c2.id_kontrak)
             FROM kontrak c2
             WHERE c2.id_kamar = k.id_kamar
