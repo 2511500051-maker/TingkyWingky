@@ -16,7 +16,7 @@ if (!is_array($input)) {
     sendResponse(false, "Format JSON tidak valid", null, 400);
 }
 
-// Mengambil data
+// Mengambil data atau Mengambil masing-masing data tagihan
 $id_kontrak = $input['id_kontrak'] ?? '';
 $periode_bulan = trim($input['periode_bulan'] ?? '');
 $tanggal_tagihan = $input['tanggal_tagihan'] ?? '';
@@ -28,7 +28,7 @@ $status_pembayaran = trim($input['status_pembayaran'] ?? '');
 
 // Validasi data wajib
 if (
-     !isset($input['id_kontrak']) ||
+    !isset($input['id_kontrak']) ||
     $periode_bulan === '' ||
     $tanggal_tagihan === '' ||
     $tanggal_jatuh_tempo === '' ||
@@ -137,8 +137,7 @@ if (mysqli_num_rows($result) > 0) {
 }
 
 // Menambahkan tagihan
-$query = "
-    INSERT INTO tagihan
+$query = "INSERT INTO tagihan
     (
         id_kontrak,
         periode_bulan,
@@ -154,6 +153,11 @@ $query = "
 
 $stmt = mysqli_prepare($koneksi, $query);
 
+
+// i, s, d adalah =
+// i = integer atau bilangan bulat.
+// d = double atau angka desimal.
+// s = string atau teks.
 mysqli_stmt_bind_param(
     $stmt,
     "isssdsss",
@@ -176,9 +180,6 @@ if (mysqli_stmt_execute($stmt)) {
     ];
 
     sendResponse(true, "Tagihan berhasil ditambahkan", $data, 201);
-
 } else {
     sendResponse(false, "Gagal menambahkan tagihan", null, 500);
 }
-
-?>

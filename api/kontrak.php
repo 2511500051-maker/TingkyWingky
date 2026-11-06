@@ -3,6 +3,7 @@
 require_once __DIR__ . "/../config.php";
 require_once __DIR__ . "/../helpers/response.php";
 
+//Memeriksa metode request
 $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method != 'POST') {
@@ -16,7 +17,7 @@ if (!is_array($input)) {
     sendResponse(false, "Format JSON tidak valid", null, 400);
 }
 
-// Mengambil data dari JSON
+// Mengambil data dari JSON / Mengambil masing-masing data kontrak
 $id_kamar = $input['id_kamar'] ?? '';
 $id_penyewa = $input['id_penyewa'] ?? '';
 $nomor_kontrak = trim($input['nomor_kontrak'] ?? '');
@@ -134,6 +135,11 @@ $query = "
 
 $stmt = mysqli_prepare($koneksi, $query);
 
+
+// i, s, d adalah =
+// i = integer atau bilangan bulat.
+// d = double atau angka desimal.
+// s = string atau teks.
 mysqli_stmt_bind_param(
     $stmt,
     "iisssdss",
